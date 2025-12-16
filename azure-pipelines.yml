@@ -7,7 +7,8 @@ trigger:
 - main
 
 pool:
- name: 'terraform-local'
+ name: 'terraform-vm-agents'
+  #name: 'terraform-local'
   #vmImage: 'windows-latest'
 
 variables:
