@@ -23,6 +23,7 @@ variable "vm_admin_password" {
 description = "VM admin password"
 type = string
 sensitive = true
+default = "Bhag@123"
 }
 
 variable "sql_db_name" {
