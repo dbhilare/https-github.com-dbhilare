@@ -23,7 +23,7 @@ steps:
 
 # Terraform Init
 - task: TerraformTaskV4@4
-  displayName: 'Terraform Init'
+  displayName: 'Terraform Init wa'
   inputs:
    provider: 'azurerm'
    command: 'init'
@@ -34,3 +34,21 @@ steps:
    backendAzureRmKey: 'azure-migrate.tfstate'
    workingDirectory: '$(System.DefaultWorkingDirectory)'
 
+# Terraform plan
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Plan wa'
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'azurerm-sc-terraform'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+# Terraform apply
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Apply wa'
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: 'azurerm-sc-terraform'
+    commandOptions: '-auto-approve'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
