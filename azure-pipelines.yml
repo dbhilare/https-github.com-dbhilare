@@ -1,0 +1,34 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  terraformVersion: '1.6.6'
+
+steps:
+# Install Terraform
+- task: TerraformInstaller@1
+  displayName: 'Install terraform wa'
+  inputs:
+    terraformVersion: $(terraformversion)
+
+# Terraform Init
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Init'
+  inputs:
+   provider: 'azurerm'
+   command: 'init'
+   backendServiceArm: 'azurerm-sc-terraform'
+   backendAzureRmResourceGroupName: 'tfstate-rg'
+   backendAzureRmStorageAccountName: 'tfstateazmig'
+   backendAzureRmContainerName: 'tfstate'
+   backendAzureRmKey: 'azure-migrate.tfstate'
+   workingDirectory: '$(System.DefaultWorkingDirectory)'
+
