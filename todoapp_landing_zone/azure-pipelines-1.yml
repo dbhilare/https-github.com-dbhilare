@@ -1,0 +1,56 @@
+trigger:
+- main
+
+pool: default
+
+jobs:
+- job: TerraformInitPlan
+  steps:
+  - task: TerraformInstaller@1
+    inputs:
+      terraformVersion: 'latest'
+
+  - script: 
+      echo "TF binary path:"
+      where terraform
+
+      echo "Repo root (System.DefaultWorkingDirectory):"
+      echo "$(System.DefaultWorkingDirectory)"
+
+
+  - task: TerraformTask@5
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      workingDirectory: $(System.DefaultWorkingDirectory)/environments/development
+      backendServiceArm: 'dev-ser-con'
+      backendAzureRmStorageAccountName: 'mytfstate420'
+      backendAzureRmContainerName: 'tfstate'
+      backendAzureRmKey: 'terraform.tfstate'
+
+  - script: 
+      echo "Init path:"
+      echo "$(System.DefaultWorkingDirectory)"
+
+  - task: TerraformTask@5
+    inputs:
+      provider: 'azurerm'
+      command: 'plan'
+      workingDirectory: $(System.DefaultWorkingDirectory)/environments/development
+      environmentServiceNameAzureRM: 'dev-ser-con'
+
+  - script: 
+      echo "plan path:"
+      echo "$(System.DefaultWorkingDirectory)"
+  
+  - task: TerraformTask@5
+    inputs:
+      provider: 'azurerm'
+      command: 'apply'
+      workingDirectory: $(System.DefaultWorkingDirectory)/environments/development
+      environmentServiceNameAzureRM: 'dev-ser-con'
+
+  - script: 
+      echo "apply path:"
+      echo "$(System.DefaultWorkingDirectory)"
+    
